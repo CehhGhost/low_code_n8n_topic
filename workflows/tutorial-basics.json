@@ -310,7 +310,7 @@
     },
     {
       "parameters": {
-        "content": "## 1. Запуск и данные\n\n**Start example** запускает workflow вручную.\n\n**Example input** создает тестовый JSON. Откройте Output и попробуйте изменить `userId`, `priority`.",
+        "content": "## 1. Начните с Input / Output\n\n**Start example** — ручной запуск. **Example input** — тестовый JSON.\n\n1. Запустите схему через **Execute workflow**.\n2. Откройте узлы и сравните Input и Output.\n3. Поменяйте `priority` на `medium`, запустите снова.\n\n**Цель:** увидеть, что каждый узел получает конкретные данные, а не весь проект.",
         "height": 230,
         "width": 410,
         "color": 7
@@ -326,7 +326,7 @@
     },
     {
       "parameters": {
-        "content": "## 2. If и expressions\n\nПроверяем `priority === \"high\"`.\n\nTrue и False - две возможные ветки. В узлах справа добавляется `exampleBranch`, но другие поля сохраняются.",
+        "content": "## 2. Условия и динамические поля\n\n**Is high priority?** сравнивает `priority` с `high`.\n\n- True и False — разные ветви.\n- Узлы **Priority = ...** записывают `exampleBranch` и сохраняют входные поля.\n\n**Эксперимент:** измените `priority`; объясните, почему сработала другая ветка.",
         "height": 210,
         "width": 460,
         "color": 7
@@ -342,7 +342,7 @@
     },
     {
       "parameters": {
-        "content": "## 3. HTTP Request\n\nПолучаем пользователя из Mock API по адресу `http://mock-api:8080/users/{id}`.\n\nURL содержит expression с `$json.userId`. **Внутри Docker** используем имя сервиса, не `localhost`.",
+        "content": "## 3. HTTP Request и потеря контекста\n\n**Get demo user** запрашивает `http://mock-api:8080/users/{id}`.\n\nВ URL используется **expression** с `$json.userId`: он зависит от входа.\n\nСравните Output до и после HTTP Request. Теперь текущий JSON — **ответ пользователя**, а не исходное обращение.\n\n**Эксперимент:** ID `451`, затем `452`, затем `9999`. Последний приведет к ошибке.\n\nВнутри Docker используйте имя сервиса `mock-api`, не `localhost`.",
         "height": 220,
         "width": 370,
         "color": 7
@@ -358,7 +358,7 @@
     },
     {
       "parameters": {
-        "content": "## 4. Switch\n\nМаршрутизируем **ответ API** по полю `department`.\n\n451 -> IT, 452 -> Finance, 453 -> Other (fallback). Это **демонстрация**, не решение ДЗ.",
+        "content": "## 4. Switch и выбор направления\n\n**Route by department** проверяет `department` из **ответа API**.\n\n- `451` → `IT`\n- `452` → `Finance`\n- `453` → `Other` (fallback)\n\n**Задача:** выполните три запуска и сравните активные выходы.\n\nЭто **учебный пример**, а не готовый workflow обработки обращений.",
         "height": 185,
         "width": 400,
         "color": 7

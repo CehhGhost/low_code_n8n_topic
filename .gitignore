@@ -9,7 +9,6 @@ __pycache__/
 .vscode/
 *.log
 .n8n/
-reference-baseline.json
 
 # Generated functional test reports (re-created by the runner)
 reports/
