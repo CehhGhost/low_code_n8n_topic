@@ -44,16 +44,16 @@ python tests/smoke_mock_api.py
 
 Smoke-тест временно очищает данные Mock API, поэтому выполняйте его отдельно от других экспериментов.
 
-## Импорт учебного workflow
+## Импорт учебных workflow
 
 1. Создайте новый workflow в веб-интерфейсе n8n.
 2. Откройте меню workflow (три точки) и выберите **Import from File**.
 3. Выберите файл `workflows/tutorial-basics.json`.
 4. Сохраните workflow и запустите его через **Execute workflow**.
-5. Поочередно откройте входные и выходные данные узлов, прочитайте Sticky Notes.
-6. Поменяйте `userId` в узле **Example input** с `451` на `452`; повторите запуск. В ответе HTTP Request должна появиться Мария Смирнова, а Switch выберет ветку Finance.
+5. Затем отдельно импортируйте `workflows/tutorial-items-loops.json` и `workflows/tutorial-webhook.json`.
+6. Выполните опыты из [N8N_BASICS.md](N8N_BASICS.md) последовательно. Обратите внимание на примеры работы с предыдущими узлами, несколько items, Loop Over Items и тестовый Webhook.
 
-**Важно:** учебный workflow не содержит Webhook приема обращений, регистрацию заявок, обработку ошибок и экспертные дополнения. Он лишь показывает основные узлы и принципы передачи данных. После практикума изучите [ASSIGNMENT.md](ASSIGNMENT.md) и импортируйте `workflows/student-starter.json` как отдельный workflow.
+**Важно:** учебные workflow не содержат Webhook приема обращений по пути `/support-request`, регистрацию заявок, обработку ошибок и экспертные дополнения. Он лишь показывает основные узлы и принципы передачи данных. После практикума изучите [ASSIGNMENT.md](ASSIGNMENT.md) и импортируйте `workflows/student-starter.json` как отдельный workflow.
 
 ## Адреса внутри и снаружи контейнеров
 

@@ -1,0 +1,142 @@
+{
+  "name": "Tutorial 03 — Webhook и HTTP-ответ",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tutorial-ping",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "1529e2d6-7b2a-4e4a-a3a9-866ecd97412e",
+      "name": "Webhook: tutorial-ping",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        160,
+        310
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e0c22b40-1b42-4339-97d3-accd37888512",
+              "name": "message",
+              "value": "={{ $json.body.message }}",
+              "type": "string"
+            },
+            {
+              "id": "6081f8b6-750f-484f-b3e5-10ae62eb56ae",
+              "name": "received",
+              "value": "={{ true }}",
+              "type": "boolean"
+            },
+            {
+              "id": "0a70065c-1932-4864-a784-6a90225d144f",
+              "name": "sender",
+              "value": "={{ $json.body.sender ?? \"anonymous\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "id": "0ee9a2c5-7552-46bf-a6cb-480d49e3fbfc",
+      "name": "Map incoming body",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        450,
+        310
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "firstIncomingItem",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "7160ccb0-a54a-4201-9977-8deb81c7ee5d",
+      "name": "Respond demo (HTTP 200)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        780,
+        310
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 1. Триггеры и запуск\n\n**Manual Trigger** — старт вручную.\n**Webhook** — старт по HTTP.\n**Schedule Trigger** — старт по расписанию.\n**Error Trigger** — отдельная схема для реакции на ошибки.\n\nВ этом примере Webhook принимает **POST** на `/tutorial-ping`.\n\n**Важно:** Test URL работает в режиме ожидания тестового события, Production URL — после публикации.\n\nИзбегайте конфликта со студенческим `/support-request`.",
+        "width": 550,
+        "height": 295,
+        "color": 7
+      },
+      "id": "d03ff5c8-29ae-4f19-8047-846c73eedef1",
+      "name": "NOTE Trigger",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2. Откуда берутся поля?\n\nWebhook передает тело JSON как `$json.body`.\n\n`Map incoming body` берет `body.message` и `body.sender`, формирует новый JSON.\n\n`Respond demo` отправляет этот результат обратно клиенту.\n\n**Эксперимент:** отправьте два разных значения `message`. Проверьте, меняется ли ответ.\n\nПосле практикума можно **не публиковать** учебный workflow постоянно.",
+        "width": 515,
+        "height": 295,
+        "color": 7
+      },
+      "id": "c0c3398a-8ec3-4725-a62f-cc7633c7b102",
+      "name": "NOTE Expressions",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        670,
+        -20
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook: tutorial-ping": {
+      "main": [
+        [
+          {
+            "node": "Map incoming body",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map incoming body": {
+      "main": [
+        [
+          {
+            "node": "Respond demo (HTTP 200)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "active": false,
+  "versionId": "b119ba74-dfe8-4fe1-ad73-36d83f82bfbf",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}

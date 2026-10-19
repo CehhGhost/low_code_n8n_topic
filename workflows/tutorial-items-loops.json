@@ -1,0 +1,359 @@
+{
+  "name": "Tutorial 02 — Items и циклы",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "d1d1b393-17d1-4fa7-a329-6f512747f72b",
+      "name": "Start items demo",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        120,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Учебные данные: по одному item на каждую запись.\n// Писать собственный JavaScript для этого практикума не требуется.\nreturn [\n  { json: { ticketId: \"T-101\", amount: 60, category: \"general\" } },\n  { json: { ticketId: \"T-102\", amount: 150, category: \"technical\" } },\n  { json: { ticketId: \"T-103\", amount: 85, category: \"general\" } },\n  { json: { ticketId: \"T-104\", amount: 210, category: \"billing\" } },\n];"
+      },
+      "id": "39caa400-37c3-41b4-b609-a43daae97476",
+      "name": "Create 4 items (example)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        350,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "06ee1bc4-4fba-4fb6-98e5-8d061ab00e8c",
+              "name": "amountPlusTen",
+              "value": "={{ $json.amount + 10 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "994d483f-449f-431e-911b-f6486234e4e2",
+      "name": "Auto: calculate amount",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        630,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "options": {},
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6e176952-e182-49e0-ad57-43229237412d",
+              "leftValue": "={{ $json.amount }}",
+              "rightValue": 100,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "f59fccb7-4707-4961-8f2a-3be4df000776",
+      "name": "Auto: amount >= 100?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d4457abd-3b1b-40e5-b5ff-1b0c4ec5241d",
+              "name": "sizeGroup",
+              "value": "large",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "fdde5f7b-4f56-4d34-b2dd-729ea397b9db",
+      "name": "Auto: large",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1130,
+        125
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "733062bb-d9e3-4ceb-b21c-b720519cbf11",
+              "name": "sizeGroup",
+              "value": "small",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "3d2a11a7-d001-4cdd-b2b0-09f27d04056d",
+      "name": "Auto: small",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1130,
+        335
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "dcc57399-b520-408b-bee7-8454287aa6b4",
+      "name": "Loop: batches of 1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        630,
+        570
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "20819da8-aa06-40b8-bf46-094e36d00b02",
+              "name": "handled",
+              "value": "={{ true }}",
+              "type": "boolean"
+            },
+            {
+              "id": "bdd0648f-7ff1-4011-96e3-8dcb4baac5c1",
+              "name": "amountPlusFive",
+              "value": "={{ $json.amount + 5 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "16863ddd-183a-4de8-884b-676ffced31bf",
+      "name": "Loop: mark item",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        910,
+        665
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "40203bab-1189-4c2d-9405-abfc18924e19",
+              "name": "loopFinished",
+              "value": "={{ true }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "37c593fa-a4b4-445d-9142-d0c0417bf776",
+      "name": "Done: inspect all",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        490
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 1. Один запуск ≠ один item\n\n`Create 4 items (example)` возвращает **4 item**, а не один JSON-массив.\n\nОткройте Output и переключайте item 0 / 1 / 2 / 3.\n\nУзлы на верхней ветке используют `$json` для **каждого** item автоматически; отдельный цикл им не нужен.\n\n**Эксперимент:** сколько item выходят из `Auto: large` и `Auto: small`? Почему?",
+        "width": 490,
+        "height": 290,
+        "color": 7
+      },
+      "id": "bbe445f5-c13a-4344-b3c8-e38a463f3495",
+      "name": "NOTE Multiple items",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        300,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2. Числовые сравнения\n\n`Auto: amount >= 100?` использует тип **Number** и оператор **is greater than or equal to**.\n\n1. Замените `100` на `80`.\n2. Запустите заново и сравните ветки.\n3. Изучите другие операторы: `is equal to`, `contains`, `is empty`, `exists`.\n\n**Важно:** `100` (Number) и `'100'` (String) — разные типы при строгой проверке.",
+        "width": 510,
+        "height": 260,
+        "color": 7
+      },
+      "id": "6b861f21-3fd6-49ed-a38c-133c9f5dcb55",
+      "name": "NOTE Operators",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        930,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 3. Зачем Loop Over Items?\n\nНижняя ветка получает те же 4 item, но `Loop: batches of 1` отдает по одному элементу через выход **loop**.\n\n`Loop: mark item` обрабатывает текущий элемент и **возвращает управление** в Loop. После окончания все обработанные item выходят через **done**.\n\nПосмотрите Execution каждого узла. Затем попробуйте Batch Size = 2.\n\n**Цикл сам завершится, когда закончатся item.** Не добавляйте бесконечные обратные связи.",
+        "width": 590,
+        "height": 285,
+        "color": 7
+      },
+      "id": "4756013f-b86b-412d-a074-a60be1d5cdc1",
+      "name": "NOTE Explicit loop",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        510,
+        880
+      ]
+    }
+  ],
+  "connections": {
+    "Start items demo": {
+      "main": [
+        [
+          {
+            "node": "Create 4 items (example)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create 4 items (example)": {
+      "main": [
+        [
+          {
+            "node": "Auto: calculate amount",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Loop: batches of 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto: calculate amount": {
+      "main": [
+        [
+          {
+            "node": "Auto: amount >= 100?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto: amount >= 100?": {
+      "main": [
+        [
+          {
+            "node": "Auto: large",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Auto: small",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop: mark item": {
+      "main": [
+        [
+          {
+            "node": "Loop: batches of 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop: batches of 1": {
+      "main": [
+        [
+          {
+            "node": "Done: inspect all",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop: mark item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "active": false,
+  "versionId": "e8d6d865-f0c5-4f10-8c9e-5f1879dc0852",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}

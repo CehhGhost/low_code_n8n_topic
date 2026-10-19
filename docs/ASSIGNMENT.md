@@ -15,7 +15,7 @@
 В репозитории есть:
 
 - `compose.yaml` — локальные n8n и Mock API;
-- `workflows/tutorial-basics.json` — практикум по узлам, не являющийся решением;
+- `workflows/tutorial-basics.json`, `workflows/tutorial-items-loops.json`, `workflows/tutorial-webhook.json` — три небольших учебных примера, не являющихся решением;
 - `workflows/student-starter.json` — отдельная заготовка c `Webhook` и ответом `TODO`;
 - `docs/API_CONTRACT.md` — точные требования к входу, выходу и API;
 - `tests/run_tests.py` — автоматические функциональные проверки.
@@ -26,8 +26,8 @@
 
 1. Подготовьте Docker и Python 3.10+; подробности в [SETUP.md](SETUP.md).
 2. Запустите `docker compose up -d`. Проверьте `http://localhost:5678` и `http://127.0.0.1:8080/health`.
-3. Импортируйте `workflows/tutorial-basics.json` в n8n.
-4. Пройдите [N8N_BASICS.md](N8N_BASICS.md): запуск узлов, Input/Output, expressions, If, Switch, HTTP Request.
+3. По очереди импортируйте в n8n три учебных workflow из `workflows/tutorial-*.json`.
+4. Пройдите [N8N_BASICS.md](N8N_BASICS.md): триггеры, Input/Output, expressions, предыдущие узлы, If/Switch, HTTP Request, несколько items и циклы.
 5. Импортируйте `workflows/student-starter.json` как **отдельный workflow** и изучите Webhook / Respond to Webhook.
 
 **Проверка этапа:** вы можете объяснить, как данные проходят между узлами и почему URL Mock API внутри Docker выглядит как `http://mock-api:8080`.

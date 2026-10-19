@@ -8,13 +8,13 @@
 
 Представьте, что служба поддержки получает обращения, а информация о пользователях и регистрация заявок находятся в разных сервисах. Вам нужно связать их с помощью визуального workflow в **n8n**, не создавая отдельный backend. Система должна принять обращение, проверить поля, найти пользователя через REST API, определить ответственную группу и SLA, зарегистрировать обращение и вернуть JSON с результатом. При сбоях — вернуть корректную ошибку.
 
-В ходе работы вы познакомитесь с **Manual Trigger, Edit Fields, If, Switch, expressions, HTTP Request, Webhook** и отладкой workflow. Для экспертного уровня предусмотрены самостоятельные задачи по **Retry** и **защите от повторной регистрации**.
+В ходе работы вы познакомитесь с **Manual Trigger, Edit Fields, If, Switch, expressions, HTTP Request, Webhook, Loop Over Items** и отладкой workflow. Для экспертного уровня предусмотрены самостоятельные задачи по **Retry** и **защите от повторной регистрации**.
 
 ## С чего начать
 
 1. **[Постановка задания](docs/ASSIGNMENT.md)** — что именно требуется сделать и что считается готовым.
 2. **[Установка и запуск](docs/SETUP.md)** — как поднять локальное окружение.
-3. **[Практикум по n8n](docs/N8N_BASICS.md)** — короткие эксперименты с примером.
+3. **[Практикум по n8n](docs/N8N_BASICS.md)** — упражнения по триггерам, выражениям, сравнениям, данным предыдущих узлов и циклам (около 70–90 минут).
 4. **[API-контракт](docs/API_CONTRACT.md)** — форматы входных данных, правил маршрутизации и ответов.
 5. **[Проверка и оценка](docs/GRADING.md)** — 100 баллов и условия уровней Б / Б+ / П / Э.
 6. **[Как сдать работу](docs/SUBMISSION.md)** — экспорт JSON, `REPORT.md`, видеоотчет и Pull Request.
@@ -39,7 +39,7 @@ docker compose up -d
 - Mock API: http://127.0.0.1:8080/health;
 - пример пользователя: http://127.0.0.1:8080/users/451.
 
-В n8n импортируйте **сначала** `workflows/tutorial-basics.json` и выполните задания из [практикума](docs/N8N_BASICS.md). Затем в **отдельный** workflow импортируйте `workflows/student-starter.json` и реализуйте [основное ДЗ](docs/ASSIGNMENT.md).
+В n8n по очереди импортируйте **три учебных workflow**: `workflows/tutorial-basics.json`, `workflows/tutorial-items-loops.json`, `workflows/tutorial-webhook.json` и выполните упражнения из [практикума](docs/N8N_BASICS.md). Затем в **отдельный** workflow импортируйте `workflows/student-starter.json` и реализуйте [основное ДЗ](docs/ASSIGNMENT.md).
 
 **Важно:** рабочий Webhook должен иметь метод `POST` и путь `support-request`. Тесты обращаются к **Production URL** `http://localhost:5678/webhook/support-request`; необходимо сохранить и **опубликовать** workflow. Если существуют два workflow с одинаковым путем, опубликован должен быть только один.
 
@@ -83,7 +83,9 @@ python tests/run_tests.py --mode expert
 n8n-workflow-lab/
 ├── compose.yaml                # готовые n8n и Mock API
 ├── workflows/
-│   ├── tutorial-basics.json    # пример для знакомства с n8n
+│   ├── tutorial-basics.json       # данные, expressions, If/Switch, HTTP
+│   ├── tutorial-items-loops.json  # несколько items, циклы
+│   ├── tutorial-webhook.json      # вебхуки и HTTP-ответы
 │   └── student-starter.json    # заготовка основного задания
 ├── mock-api/server.py          # готовый имитатор внешних систем
 ├── tests/run_tests.py          # проверка результата через HTTP

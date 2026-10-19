@@ -1,5 +1,5 @@
 {
-  "name": "n8n Basics - guided tutorial (NOT homework solution)",
+  "name": "Tutorial 01 — Данные, условия и HTTP",
   "nodes": [
     {
       "parameters": {},
@@ -371,6 +371,60 @@
         1500,
         -30
       ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e4b59ebb-10f6-4b19-8600-b821e60da3d2",
+              "name": "originalRequestId",
+              "value": "={{ $('Example input').item.json.requestId }}",
+              "type": "string"
+            },
+            {
+              "id": "05034041-2679-4c31-9d22-3b45542f3d5f",
+              "name": "currentDepartment",
+              "value": "={{ $json.department }}",
+              "type": "string"
+            },
+            {
+              "id": "8cad35f3-ac21-4f7c-add0-6e8f6f401735",
+              "name": "requestIdFromFirst",
+              "value": "={{ $('Example input').first().json.requestId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "1abbbcbb-d79e-4bbd-9509-41479454adac",
+      "name": "Recall previous node data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1980,
+        375
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 5. Текущий item ≠ весь workflow\n\nПосле HTTP Request текущий `$json` содержит **ответ пользователя**. Исходный `requestId` можно извлечь по имени предыдущего узла.\n\n`$('Example input').item.json.requestId` — связанный с текущим элемент исходный item.\n\n`$('Example input').first().json.requestId` — **первый** item; для нескольких элементов этот прием может быть неправильным!\n\n**Эксперимент:** откройте `Recall previous node data` и сопоставьте поля с Output `Example input`.\n\nСамостоятельно добавьте поле `originalDescription` ссылкой на `Example input`.",
+        "width": 520,
+        "height": 300,
+        "color": 7
+      },
+      "id": "2c273fe7-f550-43d4-8e2a-2262a1d27324",
+      "name": "NOTE Previous item",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1870,
+        20
+      ]
     }
   ],
   "connections": {
@@ -466,6 +520,39 @@
         [
           {
             "node": "Other result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IT result": {
+      "main": [
+        [
+          {
+            "node": "Recall previous node data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finance result": {
+      "main": [
+        [
+          {
+            "node": "Recall previous node data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Other result": {
+      "main": [
+        [
+          {
+            "node": "Recall previous node data",
             "type": "main",
             "index": 0
           }

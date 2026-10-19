@@ -89,5 +89,46 @@ class TutorialStructureTest(unittest.TestCase):
         self.assertEqual(len(nodes),1)
         self.assertIn('http://mock-api:8080/users/',nodes[0]['parameters']['url'])
 
+class ExpandedTutorialStructureTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.workflows = [json.loads(p.read_text(encoding='utf-8')) for p in sorted((ROOT/'workflows').glob('tutorial-*.json'))]
+
+    def test_three_importable_examples(self):
+        self.assertEqual(len(self.workflows), 3)
+        for flow in self.workflows:
+            self.assertFalse(flow['active'])
+            names = {n['name'] for n in flow['nodes']}
+            self.assertEqual(len(names), len(flow['nodes']))
+            for src, outputs in flow['connections'].items():
+                self.assertIn(src, names)
+                for branch in outputs['main']:
+                    for edge in branch:
+                        self.assertIn(edge['node'], names)
+                        self.assertEqual(edge['index'], 0)
+
+    def test_items_loop_wiring(self):
+        flow = next(f for f in self.workflows if 'Items' in f['name'])
+        by_name={n['name']:n for n in flow['nodes']}
+        self.assertEqual(by_name['Loop: batches of 1']['type'],'n8n-nodes-base.splitInBatches')
+        self.assertEqual(by_name['Loop: batches of 1']['parameters']['batchSize'],1)
+        outputs=flow['connections']['Loop: batches of 1']['main']
+        self.assertEqual(outputs[0][0]['node'],'Done: inspect all')
+        self.assertEqual(outputs[1][0]['node'],'Loop: mark item')
+        self.assertEqual(flow['connections']['Loop: mark item']['main'][0][0]['node'],'Loop: batches of 1')
+
+    def test_webhook_does_not_conflict_with_assignment(self):
+        flow = next(f for f in self.workflows if 'Webhook' in f['name'])
+        nodes={n['name']:n for n in flow['nodes']}
+        self.assertEqual(nodes['Webhook: tutorial-ping']['parameters']['path'],'tutorial-ping')
+        self.assertEqual(nodes['Webhook: tutorial-ping']['parameters']['responseMode'],'responseNode')
+        self.assertTrue(any(n['type'].endswith('.respondToWebhook') for n in flow['nodes']))
+
+    def test_references_practical_context(self):
+        flow=next(f for f in self.workflows if 'Данные' in f['name'])
+        ref=next(n for n in flow['nodes'] if n['name']=='Recall previous node data')
+        values=[f['value'] for f in ref['parameters']['assignments']['assignments']]
+        self.assertTrue(any("$('Example input').item.json" in str(v) for v in values))
+
 if __name__ == '__main__':
     unittest.main()
