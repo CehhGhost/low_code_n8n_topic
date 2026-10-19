@@ -28,15 +28,9 @@ docker compose logs -f n8n
 
 Проверка Mock API в браузере: **http://127.0.0.1:8080/users/451**. Ожидается JSON с пользователем Иван Иванов.
 
-## Если n8n уже работал на этапе 2
+## Проверка готового Mock API
 
-После обновления файлов (или распаковки нового архива поверх предыдущего) перезапустите сервер Mock API, чтобы Python прочитал измененный исходный код:
-
-```bash
-docker compose restart mock-api
-```
-
-Содержимое n8n сохраняется в Docker volume и при этом не удаляется. Для проверки всей новой функциональности:
+После запуска сервисов можно проверить, что Mock API поддерживает регистрацию обращений и имитацию ошибок:
 
 ```bash
 python tests/smoke_mock_api.py
@@ -53,7 +47,7 @@ Smoke-тест временно очищает данные Mock API, поэто
 5. Затем отдельно импортируйте `workflows/tutorial-items-loops.json` и `workflows/tutorial-webhook.json`.
 6. Выполните опыты из [N8N_BASICS.md](N8N_BASICS.md) последовательно. Обратите внимание на примеры работы с предыдущими узлами, несколько items, Loop Over Items и тестовый Webhook.
 
-**Важно:** учебные workflow не содержат Webhook приема обращений по пути `/support-request`, регистрацию заявок, обработку ошибок и экспертные дополнения. Он лишь показывает основные узлы и принципы передачи данных. После практикума изучите [ASSIGNMENT.md](ASSIGNMENT.md) и импортируйте `workflows/student-starter.json` как отдельный workflow.
+**Важно:** учебные workflow не содержат Webhook приема обращений по пути `/support-request`, регистрацию заявок, обработку ошибок и экспертные дополнения. Они лишь показывают основные узлы и принципы передачи данных. После практикума изучите [ASSIGNMENT.md](ASSIGNMENT.md) и импортируйте `workflows/student-starter.json` как отдельный workflow.
 
 ## Адреса внутри и снаружи контейнеров
 
@@ -90,7 +84,7 @@ docker compose up -d       # Повторный запуск
 
 Это **локальная лабораторная конфигурация**, не подходящая для публичного сервера. Порты доступны только с этого компьютера. `N8N_SECURE_COOKIE=false` допустимо здесь лишь потому, что лабораторное окружение использует локальный HTTP. Не открывайте порты наружу и не помещайте реальные секреты в учебный workflow.
 
-Официальные источники: [n8n: установка с Docker Compose](https://docs.n8n.io/deploy/host-n8n/install-options/install-using-docker-compose/), [Импорт и экспорт workflow](https://docs.n8n.io/workflows/export-import/).
+Официальные источники: [n8n: установка с Docker Compose](https://docs.n8n.io/hosting/installation/server-setups/docker-compose/), [Импорт и экспорт workflow](https://docs.n8n.io/workflows/export-import/).
 
 ## Автоматическая проверка задания
 

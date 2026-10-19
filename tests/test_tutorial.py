@@ -57,7 +57,7 @@ class MinimalAPITest(unittest.TestCase):
         self.assertEqual(status,404)
         self.assertEqual(obj['error']['code'],'USER_NOT_FOUND')
 
-    def test_stage3_requires_post_body(self):
+    def test_registration_requires_post_body(self):
         status,_,obj=self.request('POST','/requests')
         self.assertEqual(status,400)
         self.assertEqual(obj['error']['code'],'INVALID_REQUEST')

@@ -1,7 +1,6 @@
 """Contract tests for Mock API itself (no Docker / n8n required).
 
-These DO NOT award the student's 60 functional points.  Student-facing tests
-will test the n8n Webhook on a later project stage.
+These DO NOT award the student's 60 functional points.  Student-facing functional tests check the n8n Webhook separately.
 """
 
 import http.client
@@ -12,7 +11,7 @@ import threading
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location("n8n_lab_server_stage3", ROOT / "mock-api" / "server.py")
+spec = importlib.util.spec_from_file_location("n8n_lab_server", ROOT / "mock-api" / "server.py")
 api = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(api)
 
@@ -67,7 +66,7 @@ class MockAPIContractTest(unittest.TestCase):
 
     def test_health_and_content_type(self):
         status, result, content_type = self.request("GET", "/health")
-        self.assertEqual((status, result["stage"]), (200, 3))
+        self.assertEqual((status, result["status"], result["service"]), (200, "ok", "mock-api"))
         self.assertIn("application/json", content_type)
         self.assertEqual(self.calls(), [])
 

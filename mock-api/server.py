@@ -104,7 +104,7 @@ class MockHandler(BaseHTTPRequestHandler):
         path = unquote(urlsplit(self.path).path)
         timestamp = int(time.time() * 1000)
         if path == "/health":
-            self.send_json(200, {"status": "ok", "stage": 3})
+            self.send_json(200, {"status": "ok", "service": "mock-api"})
             return
         if path == "/__test__/calls":
             self.send_json(200, {"calls": self.store.get_calls()})
@@ -256,7 +256,7 @@ class MockHandler(BaseHTTPRequestHandler):
 
 def main() -> None:
     server = ThreadingHTTPServer(("0.0.0.0", 8080), MockHandler)
-    print("n8n lab mock-api (stage 3) listening on 0.0.0.0:8080", flush=True)
+    print("n8n lab mock-api listening on 0.0.0.0:8080", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

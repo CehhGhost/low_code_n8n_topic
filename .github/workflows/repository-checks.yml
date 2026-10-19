@@ -1,0 +1,21 @@
+name: Проверка учебного репозитория
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  repository-checks:
+    name: Mock API, JSON и документация
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Получить исходники
+        uses: actions/checkout@v4
+      - name: Установить Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Проверить учебные компоненты
+        run: python -m unittest discover -s tests -p 'test_*.py' -v

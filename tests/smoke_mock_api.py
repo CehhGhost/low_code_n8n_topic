@@ -29,7 +29,7 @@ def call(method, path, data=None):
 
 def run():
     code, result = call("GET", "/health")
-    assert code == 200 and result.get("stage") == 3, "Mock API не обновлен до этапа 3"
+    assert code == 200 and result.get("status") == "ok" and result.get("service") == "mock-api", "Mock API не соответствует ожидаемой конфигурации"
     print("[1/6] Health: OK")
     code, result = call("GET", "/users/451")
     assert code == 200 and result["department"] == "IT"
@@ -70,7 +70,7 @@ def run():
     assert code == 200
     assert call("GET", "/__test__/records")[1]["records"] == []
     print("[6/6] Получение записей и сброс состояния: OK")
-    print("УСПЕХ: работающий Mock API соответствует базовым ожиданиям этапа 3.")
+    print("УСПЕХ: Mock API отвечает требованиям учебного задания.")
 
 
 if __name__ == "__main__":
