@@ -1,6 +1,6 @@
-"""Проверки этапа 2 без Docker и без внешних Python-библиотек.
+"""Проверки обучающего workflow и базовых endpoints без Docker.
 
-НЕ проверяет работоспособность самого n8n: для этого нужен Docker.
+НЕ проверяет выполнение workflow внутри n8n: для этого нужен Docker.
 """
 import http.client
 import importlib.util
@@ -57,10 +57,10 @@ class MinimalAPITest(unittest.TestCase):
         self.assertEqual(status,404)
         self.assertEqual(obj['error']['code'],'USER_NOT_FOUND')
 
-    def test_unimplemented_post(self):
+    def test_stage3_requires_post_body(self):
         status,_,obj=self.request('POST','/requests')
-        self.assertEqual(status,501)
-        self.assertEqual(obj['error']['code'],'NOT_IMPLEMENTED')
+        self.assertEqual(status,400)
+        self.assertEqual(obj['error']['code'],'INVALID_REQUEST')
 
 class TutorialStructureTest(unittest.TestCase):
     @classmethod
