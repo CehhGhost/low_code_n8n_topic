@@ -1,0 +1,115 @@
+{
+  "name": "STUDENT - Support requests (starter)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "support-request",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -600,
+        100
+      ],
+      "id": "0bf22744-c0d8-52f8-83b5-c8ecb060cd6b",
+      "name": "Webhook: support-request",
+      "webhookId": "a2c9890b-2e4a-54e5-bfea-8efc353f253a"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c2da4221-771c-5d74-a95f-14f970a792d0",
+              "name": "message",
+              "value": "TODO: реализуйте обработку обращения",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -320,
+        100
+      ],
+      "id": "aa36626e-749f-54b2-b9ff-6f87ddec486f",
+      "name": "TODO: replace sample response"
+    },
+    {
+      "parameters": {
+        "respondWith": "firstIncomingItem",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -50,
+        100
+      ],
+      "id": "fad8bcea-e2a8-5f54-95b8-15b69de45a1b",
+      "name": "Respond TODO (HTTP 200)"
+    },
+    {
+      "parameters": {
+        "content": "## Практическое задание\n\n1. Прочитайте `docs/API_CONTRACT.md` и `docs/TEST_CASES.md`.\n2. Замените пример ответа полноценной обработкой.\n3. **Не изменяйте** путь Webhook: `/support-request`.\n4. Подключайтесь к Mock API по адресу `http://mock-api:8080`.\n\n**Это стартовая заготовка, а не решение.**",
+        "width": 480,
+        "height": 230,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -650,
+        -260
+      ],
+      "id": "6c9d52c5-bd52-5a8d-bfaf-1770ce9394b0",
+      "name": "START HERE"
+    }
+  ],
+  "connections": {
+    "Webhook: support-request": {
+      "main": [
+        [
+          {
+            "node": "TODO: replace sample response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TODO: replace sample response": {
+      "main": [
+        [
+          {
+            "node": "Respond TODO (HTTP 200)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "active": false,
+  "versionId": "fd4110d1-802c-5513-8b53-3cb30ae23b83",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}
