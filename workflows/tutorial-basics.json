@@ -1,0 +1,487 @@
+{
+  "name": "n8n Basics - guided tutorial (NOT homework solution)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "9bc7b683-5cb5-5b14-9c9c-c4ba85278704",
+      "name": "Start example",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        100,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c54187a3-31e5-5fac-9f70-b1d1f0ddfe99",
+              "name": "requestId",
+              "value": "REQ-DEMO-001",
+              "type": "string"
+            },
+            {
+              "id": "de758f31-4e95-5f98-a632-fb38fc0f69bd",
+              "name": "userId",
+              "value": 451,
+              "type": "number"
+            },
+            {
+              "id": "2db37412-2fb9-50c1-852a-8611bd42097c",
+              "name": "type",
+              "value": "technical",
+              "type": "string"
+            },
+            {
+              "id": "73c93691-6e73-564c-afeb-06bcc59820a7",
+              "name": "priority",
+              "value": "high",
+              "type": "string"
+            },
+            {
+              "id": "3ef2cec7-2c62-541a-b8ef-d7dc8056e695",
+              "name": "description",
+              "value": "Учебный запрос",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "id": "ccd1257f-8e93-53a1-81cb-7525bf226136",
+      "name": "Example input",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        330,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "options": {},
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a28c0b5e-4ec9-5ddf-bf49-82dc0ac182d3",
+              "leftValue": "={{ $json.priority }}",
+              "rightValue": "high",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "be6bbd62-daa2-549e-afd5-eb0ee0dc5ee1",
+      "name": "Is high priority?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        590,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6996ec5b-140e-58e0-96ef-513d92fbfc31",
+              "name": "exampleBranch",
+              "value": "high priority",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "81c11b77-4996-5987-b7f0-43e94bdcf4f2",
+      "name": "Priority = high",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        850,
+        210
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6996ec5b-140e-58e0-96ef-513d92fbfc31",
+              "name": "exampleBranch",
+              "value": "other priority",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "9289d882-cc70-5b8c-8437-e0752fa8e0b9",
+      "name": "Priority = other",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        850,
+        490
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ 'http://mock-api:8080/users/' + $json.userId }}",
+        "options": {}
+      },
+      "id": "69a0ee97-48c5-5c5b-bd07-c2e30f3d4681",
+      "name": "Get demo user",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1150,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "bafe98d7-c65c-5703-8dbf-fb4dcc4c0b9a",
+                    "leftValue": "={{ $json.department }}",
+                    "rightValue": "IT",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IT"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "801c2e33-f153-5f39-a3be-66038f3823b0",
+                    "leftValue": "={{ $json.department }}",
+                    "rightValue": "Finance",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Finance"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "b9dde20a-16ae-5f4a-9f1b-ecaca0886492",
+      "name": "Route by department",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1400,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d45e2589-93e4-5f00-adba-303d0b01abb2",
+              "name": "demoRoute",
+              "value": "IT",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "1817ac9c-38e3-5e1a-868b-4fa104ad1158",
+      "name": "IT result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1690,
+        150
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d45e2589-93e4-5f00-adba-303d0b01abb2",
+              "name": "demoRoute",
+              "value": "Finance",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "98b67af0-812c-553c-811c-0d35a7bfcefd",
+      "name": "Finance result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1690,
+        370
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d45e2589-93e4-5f00-adba-303d0b01abb2",
+              "name": "demoRoute",
+              "value": "Other",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "ec1bf930-434c-5dab-bb6d-3205c4bac1fc",
+      "name": "Other result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1690,
+        590
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 1. Запуск и данные\n\n**Start example** запускает workflow вручную.\n\n**Example input** создает тестовый JSON. Откройте Output и попробуйте изменить `userId`, `priority`.",
+        "height": 230,
+        "width": 410,
+        "color": 7
+      },
+      "id": "45ae6f3c-85ec-5de0-96e4-30cb374b1932",
+      "name": "NOTE Getting started",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        80,
+        30
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2. If и expressions\n\nПроверяем `priority === \"high\"`.\n\nTrue и False - две возможные ветки. В узлах справа добавляется `exampleBranch`, но другие поля сохраняются.",
+        "height": 210,
+        "width": 460,
+        "color": 7
+      },
+      "id": "06b5f207-a054-55db-8014-b5aac050e82f",
+      "name": "NOTE If",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        540,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 3. HTTP Request\n\nПолучаем пользователя из Mock API по адресу `http://mock-api:8080/users/{id}`.\n\nURL содержит expression с `$json.userId`. **Внутри Docker** используем имя сервиса, не `localhost`.",
+        "height": 220,
+        "width": 370,
+        "color": 7
+      },
+      "id": "19ade31c-4598-5c89-b5e4-3fafe91c91e7",
+      "name": "NOTE HTTP",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1070,
+        10
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 4. Switch\n\nМаршрутизируем **ответ API** по полю `department`.\n\n451 -> IT, 452 -> Finance, 453 -> Other (fallback). Это **демонстрация**, не решение ДЗ.",
+        "height": 185,
+        "width": 400,
+        "color": 7
+      },
+      "id": "465289af-a85b-5242-b16c-f497f4476bfc",
+      "name": "NOTE Switch",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        -30
+      ]
+    }
+  ],
+  "connections": {
+    "Start example": {
+      "main": [
+        [
+          {
+            "node": "Example input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Example input": {
+      "main": [
+        [
+          {
+            "node": "Is high priority?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is high priority?": {
+      "main": [
+        [
+          {
+            "node": "Priority = high",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Priority = other",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Priority = high": {
+      "main": [
+        [
+          {
+            "node": "Get demo user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Priority = other": {
+      "main": [
+        [
+          {
+            "node": "Get demo user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get demo user": {
+      "main": [
+        [
+          {
+            "node": "Route by department",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by department": {
+      "main": [
+        [
+          {
+            "node": "IT result",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Finance result",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Other result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "active": false,
+  "versionId": "743d4a36-ea95-5f66-ae78-414757ad0804",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}
